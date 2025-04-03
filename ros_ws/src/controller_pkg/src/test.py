@@ -148,7 +148,17 @@ class image_converter:
             self.vel_pub.publish(vel_msg)
         if self.elapsed_time > 5.0 and self.elapsed_time < 7.0:
             vel_msg = Twist()
-            vel_msg.linear.x = 2
+            vel_msg.linear.x = 0.7
+            vel_msg.angular.z = 0
+            self.vel_pub.publish(vel_msg)
+        if self.elapsed_time > 7.0 and self.elapsed_time < 9.0:
+            vel_msg = Twist()
+            vel_msg.linear.x = 0
+            vel_msg.angular.z = -1.8
+            self.vel_pub.publish(vel_msg)
+        if self.elapsed_time > 9.0:
+            vel_msg = Twist()
+            vel_msg.linear.x = 0
             vel_msg.angular.z = 0
             self.vel_pub.publish(vel_msg)
 
