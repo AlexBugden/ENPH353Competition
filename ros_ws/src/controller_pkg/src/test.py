@@ -138,12 +138,17 @@ class image_converter:
         if self.elapsed_time > 1.0 and self.elapsed_time < 3.0:
             rospy.sleep(0.2)
             vel_msg = Twist()
-            vel_msg.linear.x = 10  # Constant forward speed
+            vel_msg.linear.x = 5  # Constant forward speed
             vel_msg.angular.z = 0  # Proportional control for steering
             self.vel_pub.publish(vel_msg)
-        if self.elapsed_time > 3.0:
+        if self.elapsed_time > 3.0 and self.elapsed_time < 5.0:
             vel_msg = Twist()
             vel_msg.linear.x = 0
+            vel_msg.angular.z = 0
+            self.vel_pub.publish(vel_msg)
+        if self.elapsed_time > 5.0 and self.elapsed_time < 7.0:
+            vel_msg = Twist()
+            vel_msg.linear.x = 2
             vel_msg.angular.z = 0
             self.vel_pub.publish(vel_msg)
 
