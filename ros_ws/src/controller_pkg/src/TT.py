@@ -39,7 +39,7 @@ class image_converter:
         self.timer_started = False
         self.first_image_received = False
         self.elapsed_time = 0.0
-        self.team_name = "TeamName"
+        self.team_name = "Team12"
         self.password = "password"
         # Variables to store processing results
         self.current_id = None
@@ -50,6 +50,7 @@ class image_converter:
         self.port1 = False
         self.port2 = False
         self.port3 = False
+        self .stopped = False
 
                 # Special words mapping
         self.special_words = {
@@ -448,37 +449,24 @@ class image_converter:
             vel_msg.linear.x = 0
             vel_msg.angular.z = -3
             self.vel_pub.publish(vel_msg)
-        if self.elapsed_time > 44.8 and self.elapsed_time < 53.4:
+        if self.elapsed_time > 44.8 and self.elapsed_time < 49:
             vel_msg = Twist()
             vel_msg.linear.x = 0.2
             vel_msg.angular.z = 0
             self.vel_pub.publish(vel_msg)
-        if self.elapsed_time > 53.4 and self.elapsed_time < 55.4:
+        if self.elapsed_time > 49 and self.elapsed_time < 55.4:
             vel_msg = Twist()
             vel_msg.linear.x = 0
             vel_msg.angular.z = 0
             self.vel_pub.publish(vel_msg)
-        if self.elapsed_time > 55.4 and self.elapsed_time < 56.5:
-            vel_msg = Twist()
-            vel_msg.linear.x = 0
-            vel_msg.angular.z = -3
-            self.vel_pub.publish(vel_msg)
-        if self.elapsed_time > 56.6 and self.elapsed_time < 65.1:
-            vel_msg = Twist()
-            vel_msg.linear.x = 2
-            vel_msg.angular.z = 0
-            self.vel_pub.publish(vel_msg)
-        if self.elapsed_time > 65.1 and self.elapsed_time < 74.9:
-            vel_msg = Twist()
-            vel_msg.linear.x = 0.2
-            vel_msg.angular.z = 0
-            self.vel_pub.publish(vel_msg)
-        if self.elapsed_time > 74.9 and self.elapsed_time < 77:
-            vel_msg = Twist()
-            vel_msg.linear.x = 0
-            vel_msg.angular.z = 0
-            self.vel_pub.publish(vel_msg)
-
+            rospy.sleep(2)
+            # Publish a message to /score_tracker to stop the competition timer
+            if self.stopped == False:
+                self.stopped = True
+                stop_msg = f"{self.team_name},{self.password},-1,NA"
+                self.score_pub.publish(stop_msg)
+                rospy.loginfo("Published stop message to /score_tracker: %s", stop_msg)
+            
 ## @brief Main function to initialize the ROS node and start the image processing.
 #  @param args Command-line arguments.
 def main(args):
